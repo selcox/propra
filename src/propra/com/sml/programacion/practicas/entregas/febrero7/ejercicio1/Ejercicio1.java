@@ -13,17 +13,16 @@ public class Ejercicio1 {
 	
 	public static void main (String[] args) {
 		int nWords = Integer.parseInt(JOptionPane.showInputDialog("¿Cuántas palabras vas a introducir?"));
-		String[][] words = new String[2][nWords];
+		String[] words = new String[nWords];
 		initFrame(unordered,1);
 		initFrame(ordered,2);
 		fillWords(words);
 		showWords(words,0,unordered);
-		orderWords(words);
-		//Aquí falta el método para ordenar las palabras
+		ordenate(words);
 		JOptionPane.showMessageDialog(null, "Voy a ordenar tus palabras");
 		showWords(words,1,ordered);
 	}
-	public static void initFrame(JFrame frame, int nFrame) {
+	public static void initFrame(JFrame frame, int nFrame) { //Método para inicializar los frames
 		int height = (int)(0.95*Toolkit.getDefaultToolkit().getScreenSize().height);
 		int width = (int)(0.25*Toolkit.getDefaultToolkit().getScreenSize().width);
 		frame.setSize(width,height);
@@ -35,18 +34,18 @@ public class Ejercicio1 {
 			frame.setTitle("Palabras Ordenadas");
 		}
 	}
-	public static void fillWords(String[][] matrix) {
-		int columns = matrix[0].length;
+	public static void fillWords(String[] words) {
+		int columns = words.length;
 		for(int i=0;i<columns;i++) {
-			matrix[0][i] = JOptionPane.showInputDialog("¿Qué palabra introducimos?");
+			words[i] = JOptionPane.showInputDialog("¿Qué palabra introducimos?");
 		}
 	}
-	public static void showWords(String[][] matrix, int row, JFrame window) {
-		int columns = matrix[0].length;
+	public static void showWords(String[] array, int row, JFrame window) {
+		int columns = array.length;
 		Font comic =new Font("Dialog", Font.BOLD, 13);
 		String words = "\n";
 		for(int i=0;i<columns;i++) {
-			words+="         "+matrix[row][i]+"\n";
+			words+="         "+array[i]+"\n";
 		}
 		JTextArea tWords = new JTextArea(words);
 		tWords.setFont(comic);
@@ -54,44 +53,38 @@ public class Ejercicio1 {
 		window.add(tWords);
 		window.setVisible(true);
 	}
-	public static void orderWords(String[][] matrix) {
-		int columns = matrix[0].length;
-		int[][] aux = new int[2][columns];
-		int min, minimun=-999;
-		String auxWord;
-		
-		for(int i=0;i<columns;i++) {
-			auxWord="";
-			for(int j=0;j<matrix[0][i].length();j++) {
-				auxWord+="a";
+	public static void ordenate(String[] array) { //Me inspiré en el algoritmo de burbuja
+		int disorder,comparation;
+		int columns = array.length;
+		boolean disordered=true;
+		String aux;
+		while(disordered) {
+			disorder=0;
+			for(int i=1;i<columns;i++) {
+				comparation=array[i].compareToIgnoreCase(array[i-1]);
+				System.out.println(comparation);
+				comparation=errorASCII(comparation);
+				if(comparation<0) {
+					disorder++;
+					aux=array[i];
+					array[i]=array[i-1];
+					array[i-1]=aux;
+				}
 			}
-			aux[0][i]=matrix[0][i].compareToIgnoreCase(auxWord);
-		}
-		for(int i=0;i<columns;i++) {
-			rightMove(aux);
-			min=(findMin(aux,minimun,i));
-			aux[0][i]=min;
-			minimun=min;
-		}
-		for(int i=0;i<columns;i++) {
-			matrix[1][i]=matrix[0][aux[1][i]];
-		}		
-	}
-	public static void rightMove(int[][] array) {
-		int columns = array.length;
-		for(int i=0;i<columns-1;i++) {
-			array[1][i+1]=array[1][i];
-		}
-	}
-	public static int findMin(int[][] array,int ignoreMinimun,int alreadyOrdered) {
-		int columns = array.length;
-		int min=999;
-		for(int i=alreadyOrdered,j=0;i<columns-1;i++,j++) {
-			if(array[0][i]<min && array[0][i]>=ignoreMinimun) {
-				min=array[0][i];
+			if(disorder==0) {
+				disordered=false;
 			}
 		}
-		return min;
 	}
-
+	public static int errorASCII(int comparation) {
+		int realComparation;
+		if(comparation==144) {
+			realComparation=14;
+		} else if(comparation>14 && comparation<100) {
+			realComparation=comparation+1;
+		} else {
+			realComparation=comparation;
+		}
+		return realComparation;
+	}
 }
