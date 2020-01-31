@@ -24,17 +24,5 @@ public class Ejercicio2 {
 			}
 		}
 	}
-	public static void showCube(String[][][] cube) {
-		for(int i=0;i<cube.length;i++) {
-			
-			for(int j=0;j<cube[0].length;j++) {
-				
-				for(int k=0;k<cube[0][0].length;k++) {
-					
-				}
-			}
-		}
-	}
-
 }
 
