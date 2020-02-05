@@ -25,4 +25,10 @@ public class Club {
 	public void setClubPlayers(ArrayList<String> clubPlayers) {
 		this.clubPlayers = clubPlayers;
 	}
+	public static void buyPlayer(int moneySpent) {
+		money-=moneySpent;
+	}
+	public static void sellPlayer(int moneyReceived) {
+		money+=moneyReceived;
+	}
 }

@@ -4,25 +4,25 @@ import java.util.Random;
 
 public class Player {
 	private static String[] possibleNames = {"Oliver","Benji","Bruce","Tom","Mark","Ed","Julian","Dani","Philip","James","Jason","Axel","Shawn","Byron","Xavier","Nathan","Caleb"};
-	private static String[] possibleSurnames = {" Evans"," Blaze"," Froste"," Love"," Foster"," Swift"," Atom"," Price"," Harper"," Baker"," Lenders"," Warner"," Ross"," Melow"," Callahan","Derrick"};
-	private static int[] skills = new int[6];
-	private static Random selector = new Random();
-	private static int value;
-	private static String name;
-	private static String position;
+	private static String[] possibleSurnames = {" Evans"," Blaze"," Froste"," Love"," Foster"," Swift"," Atom"," Price"," Harper"," Baker"," Lenders"," Warner"," Ross"," Melow"," Callahan"," Derrick"};
+	private int[] skills = new int[6];
+	private Random selector = new Random();
+	private int value;
+	private String name;
+	private String position;
 	public Player() {
 		fillValue();
 		fillName();
 		fillPosition();
 		fillSkills();
 	}
-	private static void fillValue() {
+	private void fillValue() {
 		value=(selector.nextInt(1500000)+400000);
 	}
-	private static void fillName() {
+	private void fillName() {
 		name=(possibleNames[selector.nextInt(possibleNames.length)]+possibleSurnames[selector.nextInt(possibleSurnames.length)]);
 	}
-	private static void fillPosition() {
+	private void fillPosition() {
 		int positionValue=selector.nextInt(101);
 		if(positionValue<11) {
 			position="POR";
@@ -37,18 +37,18 @@ public class Player {
 			position="DEL";
 		}
 	}
-	private static void fillSkills() {
+	private void fillSkills() {
 		for(int i=0;i<6;i++) {
 			skills[i]=selector.nextInt(80)+20;
 		}
 	}
-	public static int getValue() {
+	public int getValue() {
 		return value;
 	}
-	public static String getName() {
+	public String getName() {
 		return name;
 	}
-	public static String getPosition() {
+	public String getPosition() {
 		return position;
 	}
 }
