@@ -1,6 +1,7 @@
 package propra.com.sml.programacion.practicas.entregas.febrero7.ejercicio4;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -21,14 +22,16 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 	private static final int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().height);
 	private static final int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().width);
 	private static final long serialVersionUID = 1L;
-	private Font northSouthFont = new Font("Verdana", Font.BOLD, WIDTH/120);
-	private Font eastCenterFont = new Font("Verdana", Font.BOLD, WIDTH/90);
-	private Font westCenterFont = new Font("Verdana", Font.BOLD, WIDTH/150);
-	private Font infoFont = new Font("Verdana", Font.BOLD, WIDTH/80);
-	private Font infoFont2 = new Font("Verdana", Font.BOLD, WIDTH/60);
-	private Font centerButtonFont = new Font("Verdana", Font.BOLD, WIDTH/70);
-	ArrayList<Player> boughtPlayers = new ArrayList<Player>(); 
-	ArrayList<Player> avaliablePlayers = new ArrayList<Player>(); 
+	String verdana="Verdana";
+	private Font northSouthFont = new Font(verdana, Font.BOLD, WIDTH/70);
+	private Font eastCenterFont = new Font(verdana, Font.BOLD, WIDTH/90);
+	private Font westCenterFont = new Font(verdana, Font.BOLD, WIDTH/110);
+	private Font infoFont = new Font(verdana, Font.BOLD, WIDTH/80);
+	private Font infoFont2 = new Font(verdana, Font.BOLD, WIDTH/60);
+	private Font centerButtonFont = new Font(verdana, Font.BOLD, WIDTH/70);
+	private Font helpFont = new Font(verdana, Font.BOLD, WIDTH/90);
+	private ArrayList<Player> boughtPlayers = new ArrayList<Player>(); 
+	private ArrayList<Player> avaliablePlayers = new ArrayList<Player>(); 
 	JTextField northLeftText = new JTextField();
 	JTextField northRightText = new JTextField();
 	JTextField playerBought1 = new JTextField();
@@ -75,7 +78,7 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 	JTextField playerAvaliable23 = new JTextField();
 	JTextField playerAvaliable24 = new JTextField();
 	JTextField playerAvaliable25 = new JTextField();
-	myClub myClub = new myClub();
+	Club myClub = new Club();
 	JFrame infoFrame = new JFrame();
 	JTextField info1 = new JTextField();
 	JTextField info2 = new JTextField();
@@ -89,18 +92,27 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 	JFrame helpFrame = new JFrame();
 	JTextArea help = new JTextArea();
 	JButton exitHelpButton = new JButton("Volver al mercado");
+	String dontExist="No existe el jugador ";
+	String insert="Inserta el número del jugador para ver su información";
+	String avg="MEDIA: ";
+	String moneyAvaliable="Dinero disponible: ";
+	String moneySymbol="€";
+	CustomBackGround bg = new CustomBackGround();
+	Color transparent = new Color(255,255,255,0);
 	public Ex4Graphics() {
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		setLayout(new BorderLayout());
 		setUndecorated(true);
 		setExtendedState(MAXIMIZED_BOTH);
+		bg.setLayout(new BorderLayout());
+		add(bg);
 	}
 	public void initBlank(JTextField field) {
 		field.setEditable(false);
-		field.setBackground(this.getBackground());
+		field.setBackground(transparent);
 		field.setBorder(null);
+		field.setForeground(Color.YELLOW);
 	}
 	public void createNorth() {
 		JPanel north = new JPanel(new GridLayout(2,2));
@@ -110,9 +122,9 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 		JTextField blank4 = new JTextField();
 		JTextField blank5 = new JTextField();
 		northLeftText.setFont(northSouthFont);
-		northLeftText.setText("     Nombre del Club: "+myClub.getClubName());
+		northLeftText.setText("Nombre del Club: "+myClub.getClubName());
 		northRightText.setFont(northSouthFont);
-		northRightText.setText("Dinero disponible: "+myClub.getFormatMoney()+"€     ");
+		northRightText.setText(moneyAvaliable+myClub.getFormatMoney()+moneySymbol);
 		northRightText.setHorizontalAlignment(SwingConstants.RIGHT);
 		initBlank(northRightText);
 		initBlank(northLeftText);
@@ -128,14 +140,16 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 		north.add(blank3);
 		north.add(blank4);
 		north.add(blank5);
-		add(north,BorderLayout.NORTH);
+		north.setBackground(transparent);
+		bg.add(north,BorderLayout.NORTH);
 	}
 	public void createCenter() {
 		JPanel center = new JPanel(new GridLayout(1,3));
 		center.add(createEastLabels());
 		center.add(createCenterButtons());
 		center.add(createWestLabels());
-		add(center,BorderLayout.CENTER);
+		center.setBackground(transparent);
+		bg.add(center,BorderLayout.CENTER);
 	}
 	public JPanel createEastLabels() {
 		JPanel east = new JPanel(new GridLayout(13,1));
@@ -176,6 +190,7 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 		east.add(playerBought11);
 		east.add(blank);
 		east.setBorder(new TitledBorder("Plantilla"));
+		east.setBackground(transparent);
 		return east;
 	}
 	public JPanel createWestLabels() {
@@ -256,6 +271,7 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 		west.add(playerAvaliable24);
 		west.add(playerAvaliable25);
 		west.setBorder(new TitledBorder("Jugadores Disponibles"));
+		west.setBackground(transparent);
 		return west;
 	}
 	public JPanel createCenterButtons() {
@@ -326,6 +342,7 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 		infoButton.addActionListener(this);
 		helpButton.addActionListener(this);
 		exitButton.addActionListener(this);
+		centerButtons.setBackground(transparent);
 		return centerButtons;
 	}
 	public void createSouth() {
@@ -345,31 +362,15 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 		south.add(blank3);
 		south.add(blank5);
 		south.add(blank4);
-		add(south,BorderLayout.SOUTH);
+		south.setBackground(transparent);
+		bg.add(south,BorderLayout.SOUTH);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int index;
 		if(e.getSource()==buyButton) {
 			index=Integer.parseInt(JOptionPane.showInputDialog("Inserta el número del jugador que quieres comprar"));
-			if(index>avaliablePlayers.size() || (index-1)<0) {
-				JOptionPane.showMessageDialog(null, "No existe el jugador "+(index)+" en el mercado");
-			}
-			if(avaliablePlayers.get(index-1).getValue()<myClub.getClubMoney()) {
-				if(boughtPlayers.size()<12) {
-					myClub.buyPlayer(avaliablePlayers.get(index-1).getValue());
-					northRightText.setText("Dinero disponible: "+myClub.getFormatMoney()+"€     ");
-					boughtPlayers.add(avaliablePlayers.get(index-1));
-					avaliablePlayers.remove(index-1);
-					resetAvaliablePlayers();
-					fillBoughtPlayers();
-					fillAvaliablePlayers();
-				} else {
-					JOptionPane.showMessageDialog(null, "Tu plantilla está llena");
-				}
-			} else {
-				JOptionPane.showMessageDialog(null, "No tienes suficiente dinero para comprar a ");
-			}
+			buyAction(index);
 		} 
 		if(e.getSource()==sellButton) {
 			if(boughtPlayers.isEmpty()) {
@@ -377,15 +378,9 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 			} else {
 				index=Integer.parseInt(JOptionPane.showInputDialog("Inserta el número del jugador que quieres vender"));
 				if(index>boughtPlayers.size() || index<0) {
-					JOptionPane.showMessageDialog(null, "No existe el jugador "+(index)+" en tu plantilla");
+					JOptionPane.showMessageDialog(null, dontExist+(index)+" en tu plantilla");
 				}
-				myClub.sellPlayer(boughtPlayers.get(index-1).getValue());
-				northRightText.setText("Dinero disponible: "+myClub.getFormatMoney()+"€     ");
-				avaliablePlayers.add(boughtPlayers.get(index-1));
-				boughtPlayers.remove(index-1);
-				resetBoughtPlayers();
-				fillAvaliablePlayers();
-				fillBoughtPlayers();
+				sellPlayer(index);
 			}
 		} 
 		if(e.getSource()==infoButton) {
@@ -406,57 +401,68 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 			helpFrame.setVisible(false);
 		}
 	}
+	private void buyAction(int index) {
+		if(index>avaliablePlayers.size() || (index-1)<0) {
+			JOptionPane.showMessageDialog(null, dontExist+(index)+" en el mercado");
+		}
+		if(avaliablePlayers.get(index-1).getValue()<myClub.getClubMoney()) {
+			if(boughtPlayers.size()<12) {
+				buyPlayer(index);
+			} else {
+				JOptionPane.showMessageDialog(null, "Tu plantilla está llena");
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "No tienes suficiente dinero para comprar a "+avaliablePlayers.get(index-1).getName());
+		}
+	}
+	private void sellPlayer(int index) {
+		myClub.sellPlayer(boughtPlayers.get(index-1).getValue());
+		northRightText.setText(moneyAvaliable+myClub.getFormatMoney()+moneySymbol);
+		avaliablePlayers.add(boughtPlayers.get(index-1));
+		boughtPlayers.remove(index-1);
+		resetBoughtPlayers();
+		fillAvaliablePlayers();
+		fillBoughtPlayers();
+	}
+	private void buyPlayer(int index) {
+		myClub.buyPlayer(avaliablePlayers.get(index-1).getValue());
+		northRightText.setText(moneyAvaliable+myClub.getFormatMoney()+moneySymbol);
+		boughtPlayers.add(avaliablePlayers.get(index-1));
+		avaliablePlayers.remove(index-1);
+		resetAvaliablePlayers();
+		fillBoughtPlayers();
+		fillAvaliablePlayers();
+	}
 	public void fillAvaliable() {
 		for(int i=0;i<25;i++) {
 			avaliablePlayers.add(new Player());
 		}
 	}
 	public void fillAvaliablePlayers() {
-		if(avaliablePlayers.size()>0) {
-			playerAvaliable1.setText("1. "+avaliablePlayers.get(0).getPosition()+"   "+avaliablePlayers.get(0).getName()+"   "+avaliablePlayers.get(0).getFormatValue()+" €");
+		fillAvaliable1();
+		fillAvaliable2();
+		fillAvaliable3();
+		fillAvaliable4();
+		fillAvaliable5();
+	}
+	private void fillAvaliable5() {
+		if(avaliablePlayers.size()>20) {
+			playerAvaliable21.setText("21. "+avaliablePlayers.get(20).getPosition()+"   "+avaliablePlayers.get(20).getName()+"   "+avaliablePlayers.get(20).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>1) {
-			playerAvaliable2.setText("2. "+avaliablePlayers.get(1).getPosition()+"   "+avaliablePlayers.get(1).getName()+"   "+avaliablePlayers.get(1).getFormatValue()+" €");
+		if(avaliablePlayers.size()>21) {
+			playerAvaliable22.setText("22. "+avaliablePlayers.get(21).getPosition()+"   "+avaliablePlayers.get(21).getName()+"   "+avaliablePlayers.get(21).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>2) {
-			playerAvaliable3.setText("3. "+avaliablePlayers.get(2).getPosition()+"   "+avaliablePlayers.get(2).getName()+"   "+avaliablePlayers.get(2).getFormatValue()+" €");
+		if(avaliablePlayers.size()>22) {
+			playerAvaliable23.setText("23. "+avaliablePlayers.get(22).getPosition()+"   "+avaliablePlayers.get(22).getName()+"   "+avaliablePlayers.get(22).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>3) {
-			playerAvaliable4.setText("4. "+avaliablePlayers.get(3).getPosition()+"   "+avaliablePlayers.get(3).getName()+"   "+avaliablePlayers.get(3).getFormatValue()+" €");
+		if(avaliablePlayers.size()>23) {
+			playerAvaliable24.setText("24. "+avaliablePlayers.get(23).getPosition()+"   "+avaliablePlayers.get(23).getName()+"   "+avaliablePlayers.get(23).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>4) {
-			playerAvaliable5.setText("5. "+avaliablePlayers.get(4).getPosition()+"   "+avaliablePlayers.get(4).getName()+"   "+avaliablePlayers.get(4).getFormatValue()+" €");
+		if(avaliablePlayers.size()>24) {
+			playerAvaliable25.setText("25. "+avaliablePlayers.get(24).getPosition()+"   "+avaliablePlayers.get(24).getName()+"   "+avaliablePlayers.get(24).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>5) {
-			playerAvaliable6.setText("6. "+avaliablePlayers.get(5).getPosition()+"   "+avaliablePlayers.get(5).getName()+"   "+avaliablePlayers.get(5).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>6) {
-			playerAvaliable7.setText("7. "+avaliablePlayers.get(6).getPosition()+"   "+avaliablePlayers.get(6).getName()+"   "+avaliablePlayers.get(6).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>7) {
-			playerAvaliable8.setText("8. "+avaliablePlayers.get(7).getPosition()+"   "+avaliablePlayers.get(7).getName()+"   "+avaliablePlayers.get(7).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>8) {
-			playerAvaliable9.setText("9. "+avaliablePlayers.get(8).getPosition()+"   "+avaliablePlayers.get(8).getName()+"   "+avaliablePlayers.get(8).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>9) {
-			playerAvaliable10.setText("10. "+avaliablePlayers.get(9).getPosition()+"   "+avaliablePlayers.get(9).getName()+"   "+avaliablePlayers.get(9).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>10) {
-			playerAvaliable11.setText("11. "+avaliablePlayers.get(10).getPosition()+"   "+avaliablePlayers.get(10).getName()+"   "+avaliablePlayers.get(10).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>11) {
-			playerAvaliable12.setText("12. "+avaliablePlayers.get(11).getPosition()+"   "+avaliablePlayers.get(11).getName()+"   "+avaliablePlayers.get(11).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>12) {
-			playerAvaliable13.setText("13. "+avaliablePlayers.get(12).getPosition()+"   "+avaliablePlayers.get(12).getName()+"   "+avaliablePlayers.get(12).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>13) {
-			playerAvaliable14.setText("14. "+avaliablePlayers.get(13).getPosition()+"   "+avaliablePlayers.get(13).getName()+"   "+avaliablePlayers.get(13).getFormatValue()+" €");
-		}
-		if(avaliablePlayers.size()>14) {
-			playerAvaliable15.setText("15. "+avaliablePlayers.get(14).getPosition()+"   "+avaliablePlayers.get(14).getName()+"   "+avaliablePlayers.get(14).getFormatValue()+" €");
-		}
+	}
+	private void fillAvaliable4() {
 		if(avaliablePlayers.size()>15) {
 			playerAvaliable16.setText("16. "+avaliablePlayers.get(15).getPosition()+"   "+avaliablePlayers.get(15).getName()+"   "+avaliablePlayers.get(15).getFormatValue()+" €");
 		}
@@ -472,20 +478,56 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 		if(avaliablePlayers.size()>19) {
 			playerAvaliable20.setText("20. "+avaliablePlayers.get(19).getPosition()+"   "+avaliablePlayers.get(19).getName()+"   "+avaliablePlayers.get(19).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>20) {
-			playerAvaliable21.setText("21. "+avaliablePlayers.get(20).getPosition()+"   "+avaliablePlayers.get(20).getName()+"   "+avaliablePlayers.get(20).getFormatValue()+" €");
+	}
+	private void fillAvaliable3() {
+		if(avaliablePlayers.size()>10) {
+			playerAvaliable11.setText("11. "+avaliablePlayers.get(10).getPosition()+"   "+avaliablePlayers.get(10).getName()+"   "+avaliablePlayers.get(10).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>21) {
-			playerAvaliable22.setText("22. "+avaliablePlayers.get(21).getPosition()+"   "+avaliablePlayers.get(21).getName()+"   "+avaliablePlayers.get(21).getFormatValue()+" €");
+		if(avaliablePlayers.size()>11) {
+			playerAvaliable12.setText("12. "+avaliablePlayers.get(11).getPosition()+"   "+avaliablePlayers.get(11).getName()+"   "+avaliablePlayers.get(11).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>22) {
-			playerAvaliable23.setText("23. "+avaliablePlayers.get(22).getPosition()+"   "+avaliablePlayers.get(22).getName()+"   "+avaliablePlayers.get(22).getFormatValue()+" €");
+		if(avaliablePlayers.size()>12) {
+			playerAvaliable13.setText("13. "+avaliablePlayers.get(12).getPosition()+"   "+avaliablePlayers.get(12).getName()+"   "+avaliablePlayers.get(12).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>23) {
-			playerAvaliable24.setText("24. "+avaliablePlayers.get(23).getPosition()+"   "+avaliablePlayers.get(23).getName()+"   "+avaliablePlayers.get(23).getFormatValue()+" €");
+		if(avaliablePlayers.size()>13) {
+			playerAvaliable14.setText("14. "+avaliablePlayers.get(13).getPosition()+"   "+avaliablePlayers.get(13).getName()+"   "+avaliablePlayers.get(13).getFormatValue()+" €");
 		}
-		if(avaliablePlayers.size()>24) {
-			playerAvaliable25.setText("25. "+avaliablePlayers.get(24).getPosition()+"   "+avaliablePlayers.get(24).getName()+"   "+avaliablePlayers.get(24).getFormatValue()+" €");
+		if(avaliablePlayers.size()>14) {
+			playerAvaliable15.setText("15. "+avaliablePlayers.get(14).getPosition()+"   "+avaliablePlayers.get(14).getName()+"   "+avaliablePlayers.get(14).getFormatValue()+" €");
+		}
+	}
+	private void fillAvaliable2() {
+		if(avaliablePlayers.size()>5) {
+			playerAvaliable6.setText("6. "+avaliablePlayers.get(5).getPosition()+"   "+avaliablePlayers.get(5).getName()+"   "+avaliablePlayers.get(5).getFormatValue()+" €");
+		}
+		if(avaliablePlayers.size()>6) {
+			playerAvaliable7.setText("7. "+avaliablePlayers.get(6).getPosition()+"   "+avaliablePlayers.get(6).getName()+"   "+avaliablePlayers.get(6).getFormatValue()+" €");
+		}
+		if(avaliablePlayers.size()>7) {
+			playerAvaliable8.setText("8. "+avaliablePlayers.get(7).getPosition()+"   "+avaliablePlayers.get(7).getName()+"   "+avaliablePlayers.get(7).getFormatValue()+" €");
+		}
+		if(avaliablePlayers.size()>8) {
+			playerAvaliable9.setText("9. "+avaliablePlayers.get(8).getPosition()+"   "+avaliablePlayers.get(8).getName()+"   "+avaliablePlayers.get(8).getFormatValue()+" €");
+		}
+		if(avaliablePlayers.size()>9) {
+			playerAvaliable10.setText("10. "+avaliablePlayers.get(9).getPosition()+"   "+avaliablePlayers.get(9).getName()+"   "+avaliablePlayers.get(9).getFormatValue()+" €");
+		}
+	}
+	private void fillAvaliable1() {
+		if(avaliablePlayers.size()>0) {
+			playerAvaliable1.setText("1. "+avaliablePlayers.get(0).getPosition()+"   "+avaliablePlayers.get(0).getName()+"   "+avaliablePlayers.get(0).getFormatValue()+" €");
+		}
+		if(avaliablePlayers.size()>1) {
+			playerAvaliable2.setText("2. "+avaliablePlayers.get(1).getPosition()+"   "+avaliablePlayers.get(1).getName()+"   "+avaliablePlayers.get(1).getFormatValue()+" €");
+		}
+		if(avaliablePlayers.size()>2) {
+			playerAvaliable3.setText("3. "+avaliablePlayers.get(2).getPosition()+"   "+avaliablePlayers.get(2).getName()+"   "+avaliablePlayers.get(2).getFormatValue()+" €");
+		}
+		if(avaliablePlayers.size()>3) {
+			playerAvaliable4.setText("4. "+avaliablePlayers.get(3).getPosition()+"   "+avaliablePlayers.get(3).getName()+"   "+avaliablePlayers.get(3).getFormatValue()+" €");
+		}
+		if(avaliablePlayers.size()>4) {
+			playerAvaliable5.setText("5. "+avaliablePlayers.get(4).getPosition()+"   "+avaliablePlayers.get(4).getName()+"   "+avaliablePlayers.get(4).getFormatValue()+" €");
 		}
 	}
 	public void resetAvaliablePlayers() {
@@ -610,58 +652,72 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 				list=0;
 			} else {
 				error=false;
-				if(error==false) {
-					index=Integer.parseInt(JOptionPane.showInputDialog("Inserta el número del jugador para ver su información"));
-					while(list==1 && (index>boughtPlayers.size() || index<1)) {
-						JOptionPane.showMessageDialog(null, "No existe el jugador "+(index)+" en tu plantilla");
-						index=Integer.parseInt(JOptionPane.showInputDialog("Inserta el número del jugador para ver su información"));
-					}
-					while(list==2 && (index>avaliablePlayers.size() || index<1)) {
-						JOptionPane.showMessageDialog(null, "No existe el jugador "+(index)+" en el mercado");
-						index=Integer.parseInt(JOptionPane.showInputDialog("Inserta el número del jugador para ver su información"));
-					}
-				}
 			}
 		}
+		index=Integer.parseInt(JOptionPane.showInputDialog(insert));
+		index = checkExist(list, index);
 		if(list==1) {
 			info1.setText("Jugador: "+boughtPlayers.get(index-1).getName());
-			if(avaliablePlayers.get(index-1).getPosition().equalsIgnoreCase("POR")) {
-				info2.setText("ESTIRADA: "+boughtPlayers.get(index-1).getSkills(0));
-				info3.setText("PARADAS: "+boughtPlayers.get(index-1).getSkills(1));
-				info4.setText("REFLEJOS: "+boughtPlayers.get(index-1).getSkills(2));
-				info5.setText("VELOCIDAD: "+boughtPlayers.get(index-1).getSkills(3));
-				info6.setText("SAQUE: "+boughtPlayers.get(index-1).getSkills(4));
-				info7.setText("POSICIONAMIENTO: "+boughtPlayers.get(index-1).getSkills(5));
-				info8.setText("MEDIA: "+boughtPlayers.get(index-1).getAvg());
+			if(boughtPlayers.get(index-1).getPosition().equalsIgnoreCase("POR")) {
+				fillSkillsBoughtGK(index);
 			} else {
-				info2.setText("RITMO: "+boughtPlayers.get(index-1).getSkills(0));
-				info3.setText("TIRO: "+boughtPlayers.get(index-1).getSkills(1));
-				info4.setText("PASE: "+boughtPlayers.get(index-1).getSkills(2));
-				info5.setText("REGATE: "+boughtPlayers.get(index-1).getSkills(3));
-				info6.setText("DEFENSA: "+boughtPlayers.get(index-1).getSkills(4));
-				info7.setText("FÍSICO: "+boughtPlayers.get(index-1).getSkills(5));
-				info8.setText("MEDIA: "+boughtPlayers.get(index-1).getAvg());
+				fillSkillsBought(index);
 			}
 		} if(list==2) {
 			info1.setText("Jugador: "+avaliablePlayers.get(index-1).getName());
 			if(avaliablePlayers.get(index-1).getPosition().equalsIgnoreCase("POR")) {
-				info2.setText("ESTIRADA: "+avaliablePlayers.get(index-1).getSkills(0));
-				info3.setText("PARADAS: "+avaliablePlayers.get(index-1).getSkills(1));
-				info4.setText("REFLEJOS: "+avaliablePlayers.get(index-1).getSkills(2));
-				info5.setText("VELOCIDAD: "+avaliablePlayers.get(index-1).getSkills(3));
-				info6.setText("SAQUE: "+avaliablePlayers.get(index-1).getSkills(4));
-				info7.setText("POSICIONAMIENTO: "+avaliablePlayers.get(index-1).getSkills(5));
-				info8.setText("MEDIA: "+avaliablePlayers.get(index-1).getAvg());
+				fillSkillsAvaliableGK(index);
 			} else {
-				info2.setText("RITMO: "+avaliablePlayers.get(index-1).getSkills(0));
-				info3.setText("TIRO: "+avaliablePlayers.get(index-1).getSkills(1));
-				info4.setText("PASE: "+avaliablePlayers.get(index-1).getSkills(2));
-				info5.setText("REGATE: "+avaliablePlayers.get(index-1).getSkills(3));
-				info6.setText("DEFENSA: "+avaliablePlayers.get(index-1).getSkills(4));
-				info7.setText("FÍSICO: "+avaliablePlayers.get(index-1).getSkills(5));
-				info8.setText("MEDIA: "+avaliablePlayers.get(index-1).getAvg());
+				fillSkillsAvaliable(index);
 			}
 		}
+	}
+	private void fillSkillsAvaliable(int index) {
+		info2.setText("RITMO: "+avaliablePlayers.get(index-1).getSkills(0));
+		info3.setText("TIRO: "+avaliablePlayers.get(index-1).getSkills(1));
+		info4.setText("PASE: "+avaliablePlayers.get(index-1).getSkills(2));
+		info5.setText("REGATE: "+avaliablePlayers.get(index-1).getSkills(3));
+		info6.setText("DEFENSA: "+avaliablePlayers.get(index-1).getSkills(4));
+		info7.setText("FÍSICO: "+avaliablePlayers.get(index-1).getSkills(5));
+		info8.setText(avg+avaliablePlayers.get(index-1).getAvg());
+	}
+	private void fillSkillsAvaliableGK(int index) {
+		info2.setText("ESTIRADA: "+avaliablePlayers.get(index-1).getSkills(0));
+		info3.setText("PARADAS: "+avaliablePlayers.get(index-1).getSkills(1));
+		info4.setText("REFLEJOS: "+avaliablePlayers.get(index-1).getSkills(2));
+		info5.setText("VELOCIDAD: "+avaliablePlayers.get(index-1).getSkills(3));
+		info6.setText("SAQUE: "+avaliablePlayers.get(index-1).getSkills(4));
+		info7.setText("POSICIONAMIENTO: "+avaliablePlayers.get(index-1).getSkills(5));
+		info8.setText(avg+avaliablePlayers.get(index-1).getAvg());
+	}
+	private void fillSkillsBought(int index) {
+		info2.setText("RITMO: "+boughtPlayers.get(index-1).getSkills(0));
+		info3.setText("TIRO: "+boughtPlayers.get(index-1).getSkills(1));
+		info4.setText("PASE: "+boughtPlayers.get(index-1).getSkills(2));
+		info5.setText("REGATE: "+boughtPlayers.get(index-1).getSkills(3));
+		info6.setText("DEFENSA: "+boughtPlayers.get(index-1).getSkills(4));
+		info7.setText("FÍSICO: "+boughtPlayers.get(index-1).getSkills(5));
+		info8.setText(avg+boughtPlayers.get(index-1).getAvg());
+	}
+	private void fillSkillsBoughtGK(int index) {
+		info2.setText("ESTIRADA: "+boughtPlayers.get(index-1).getSkills(0));
+		info3.setText("PARADAS: "+boughtPlayers.get(index-1).getSkills(1));
+		info4.setText("REFLEJOS: "+boughtPlayers.get(index-1).getSkills(2));
+		info5.setText("VELOCIDAD: "+boughtPlayers.get(index-1).getSkills(3));
+		info6.setText("SAQUE: "+boughtPlayers.get(index-1).getSkills(4));
+		info7.setText("POSICIONAMIENTO: "+boughtPlayers.get(index-1).getSkills(5));
+		info8.setText(avg+boughtPlayers.get(index-1).getAvg());
+	}
+	private int checkExist(int list, int index) {
+		while(list==1 && (index>boughtPlayers.size() || index<1)) {
+			JOptionPane.showMessageDialog(null, dontExist+(index)+" en tu plantilla");
+			index=Integer.parseInt(JOptionPane.showInputDialog(insert));
+		}
+		while(list==2 && (index>avaliablePlayers.size() || index<1)) {
+			JOptionPane.showMessageDialog(null, dontExist+(index)+" en el mercado");
+			index=Integer.parseInt(JOptionPane.showInputDialog(insert));
+		}
+		return index;
 	}
 	public void resetInfoFrame() {
 		info1.setText("");
@@ -674,13 +730,14 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 	}
 	public void initHelpFrame() {
 		String helpText=fillHelpText();
-		helpFrame.setSize(WIDTH/4, (int) (HEIGHT*0.99));
+		helpFrame.setSize(WIDTH/3, (int) (HEIGHT*0.99));
 		helpFrame.setLocationRelativeTo(null);
 		helpFrame.setUndecorated(true);
 		helpFrame.setLayout(new FlowLayout());
 		help.setEditable(false);
-		help.setBackground(this.getBackground());
+		help.setBackground(transparent);
 		help.setBorder(null);
+		help.setFont(helpFont);
 		help.setText(helpText);
 		exitHelpButton.setSize(WIDTH/4, (int) (HEIGHT*0.20));
 		exitHelpButton.addActionListener(this);
@@ -690,18 +747,33 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 	public String fillHelpText() {
 		String text="";
 		String indentation="    ";
-		String nextLine="\n"+indentation;
+		String nextLine="\n";
+		text+=nextLine;
+		text+=nextLine;
+		text+=nextLine;
+		text+=nextLine;
 		text+=nextLine+"Bienvenido a la ayuda:";
-		text+=nextLine+indentation+"Jugadores:";
-		text+=nextLine+indentation+indentation+"Cada jugador tiene:";
-		text+=nextLine+indentation+indentation+indentation+"- Identificador";
-		text+=nextLine+indentation+indentation+indentation+"- Posición";
-		text+=nextLine+indentation+indentation+indentation+"- Nombre y Apellidos";
-		text+=nextLine+indentation+indentation+indentation+"- Precio";
-		text+=nextLine+indentation+indentation+indentation+"- Variables (tiro, defensa, estirada...)";
-		text+=nextLine+indentation+indentation+"Para comprar jugadores existe el botón de 'Comprar'";
-		text+=nextLine+indentation+indentation+"Para vender jugadores 'Vender'";
-		text+=nextLine+indentation+indentation+"Para ver las variables de cada jugador existe el botón de 'Info'";
+		text+=nextLine+indentation+"Cada jugador tiene:";
+		text+=nextLine+indentation+indentation+"- Identificador";
+		text+=nextLine+indentation+indentation+"- Posición";
+		text+=nextLine+indentation+indentation+"- Nombre y Apellidos";
+		text+=nextLine+indentation+indentation+"- Precio";
+		text+=nextLine+indentation+indentation+"- Variables (tiro, defensa, estirada...)";
+		text+=nextLine;
+		text+=nextLine+indentation+"Para comprar jugadores"+nextLine+indentation+"existe el botón de \"Comprar\"";
+		text+=nextLine;
+		text+=nextLine+indentation+"Para vender jugadores"+nextLine+indentation+"existe el botón de \"Vender\"";
+		text+=nextLine;
+		text+=nextLine+indentation+"Para ver las variables de cada jugador"+nextLine+indentation+"existe el botón de \"Info\"";
+		text+=nextLine;
+		text+=nextLine;
+		text+=nextLine;
 		return text;
+	}
+	public int getHEIGHT() {
+		return HEIGHT;
+	}
+	public int getWIDTH() {
+		return WIDTH;
 	}
 }
