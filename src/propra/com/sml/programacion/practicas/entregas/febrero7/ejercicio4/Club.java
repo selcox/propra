@@ -2,15 +2,14 @@ package propra.com.sml.programacion.practicas.entregas.febrero7.ejercicio4;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
-public class myClub {
+public class Club {
 	private static int money;
 	private ArrayList<String> clubPlayers;
 	public static String name;
 
-	public myClub() {
+	public Club() {
 		money=10000000;
 		name=JOptionPane.showInputDialog("¿Cómo se llama el club?");
 	}

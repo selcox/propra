@@ -1,7 +1,6 @@
 package propra.com.sml.programacion.practicas.entregas.febrero7.ejercicio4;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -26,6 +25,7 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 	private Font westCenterFont = new Font("Verdana", Font.BOLD, WIDTH/150);
 	private Font infoFont = new Font("Verdana", Font.BOLD, WIDTH/80);
 	private Font infoFont2 = new Font("Verdana", Font.BOLD, WIDTH/60);
+	private Font helpFont = new Font("Verdana", Font.BOLD, WIDTH/90);
 	private Font centerButtonFont = new Font("Verdana", Font.BOLD, WIDTH/70);
 	ArrayList<Player> boughtPlayers = new ArrayList<Player>(); 
 	ArrayList<Player> avaliablePlayers = new ArrayList<Player>(); 
@@ -75,7 +75,7 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 	JTextField playerAvaliable23 = new JTextField();
 	JTextField playerAvaliable24 = new JTextField();
 	JTextField playerAvaliable25 = new JTextField();
-	myClub myClub = new myClub();
+	Club myClub = new Club();
 	JFrame infoFrame = new JFrame();
 	JTextField info1 = new JTextField();
 	JTextField info2 = new JTextField();
@@ -624,7 +624,7 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 			}
 		}
 		if(list==1) {
-			info1.setText("Jugador: "+boughtPlayers.get(index-1).getName());
+			info1.setText("Jugador: "+boughtPlayers.get(index-1).getName()+"  "+boughtPlayers.get(index-1).getPosition());
 			if(avaliablePlayers.get(index-1).getPosition().equalsIgnoreCase("POR")) {
 				info2.setText("ESTIRADA: "+boughtPlayers.get(index-1).getSkills(0));
 				info3.setText("PARADAS: "+boughtPlayers.get(index-1).getSkills(1));
@@ -643,7 +643,7 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 				info8.setText("MEDIA: "+boughtPlayers.get(index-1).getAvg());
 			}
 		} if(list==2) {
-			info1.setText("Jugador: "+avaliablePlayers.get(index-1).getName());
+			info1.setText("Jugador: "+avaliablePlayers.get(index-1).getName()+"  "+avaliablePlayers.get(index-1).getPosition());
 			if(avaliablePlayers.get(index-1).getPosition().equalsIgnoreCase("POR")) {
 				info2.setText("ESTIRADA: "+avaliablePlayers.get(index-1).getSkills(0));
 				info3.setText("PARADAS: "+avaliablePlayers.get(index-1).getSkills(1));
@@ -674,34 +674,56 @@ public class Ex4Graphics extends JFrame implements ActionListener {
 	}
 	public void initHelpFrame() {
 		String helpText=fillHelpText();
+		JTextArea blank = new JTextArea("");
+		String blankText = "";
+		for(int i=0;i<13;i++) {
+			blankText+="\n\n";
+		}
+		blank.setText(blankText);
 		helpFrame.setSize(WIDTH/4, (int) (HEIGHT*0.99));
 		helpFrame.setLocationRelativeTo(null);
 		helpFrame.setUndecorated(true);
-		helpFrame.setLayout(new FlowLayout());
+		helpFrame.setLayout(new BorderLayout());
 		help.setEditable(false);
 		help.setBackground(this.getBackground());
 		help.setBorder(null);
 		help.setText(helpText);
+		help.setFont(helpFont);
+		exitHelpButton.setFont(infoFont2);
 		exitHelpButton.setSize(WIDTH/4, (int) (HEIGHT*0.20));
 		exitHelpButton.addActionListener(this);
-		helpFrame.add(help);
-		helpFrame.add(exitHelpButton);
+		blank.setEditable(false);
+		blank.setBackground(null);
+		blank.setBorder(null);
+		helpFrame.add(help,BorderLayout.NORTH);
+		helpFrame.add(exitHelpButton, BorderLayout.CENTER);
+		helpFrame.add(blank, BorderLayout.SOUTH);
 	}
 	public String fillHelpText() {
 		String text="";
-		String indentation="    ";
-		String nextLine="\n"+indentation;
+		String nextLine="\n";
+		text+=nextLine;
+		text+=nextLine;
+		text+=nextLine;
+		text+=nextLine;
 		text+=nextLine+"Bienvenido a la ayuda:";
-		text+=nextLine+indentation+"Jugadores:";
-		text+=nextLine+indentation+indentation+"Cada jugador tiene:";
-		text+=nextLine+indentation+indentation+indentation+"- Identificador";
-		text+=nextLine+indentation+indentation+indentation+"- Posición";
-		text+=nextLine+indentation+indentation+indentation+"- Nombre y Apellidos";
-		text+=nextLine+indentation+indentation+indentation+"- Precio";
-		text+=nextLine+indentation+indentation+indentation+"- Variables (tiro, defensa, estirada...)";
-		text+=nextLine+indentation+indentation+"Para comprar jugadores existe el botón de 'Comprar'";
-		text+=nextLine+indentation+indentation+"Para vender jugadores 'Vender'";
-		text+=nextLine+indentation+indentation+"Para ver las variables de cada jugador existe el botón de 'Info'";
+		text+=nextLine;
+		text+=nextLine+"Cada jugador tiene:";
+		text+=nextLine+"- Identificador";
+		text+=nextLine+"- Posición";
+		text+=nextLine+"- Nombre y Apellidos";
+		text+=nextLine+"- Precio";
+		text+=nextLine+"- Variables (tiro, defensa, estirada...)";
+		text+=nextLine;
+		text+=nextLine+"Para comprar jugadores"+nextLine+"existe el botón de 'Comprar'";
+		text+=nextLine;
+		text+=nextLine+"Para vender jugadores"+nextLine+"existe el botón de 'Vender'";
+		text+=nextLine;
+		text+=nextLine+"Para ver las variables de cada"+nextLine+"jugador existe el botón de 'Info'";
+		text+=nextLine;
+		text+=nextLine;
+		text+=nextLine;
+		text+=nextLine;
 		return text;
 	}
 }
