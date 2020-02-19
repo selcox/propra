@@ -2,66 +2,61 @@ package propra.com.sml.programacion.practicas.entregas.poo1.ejerciciopoo1;
 
 import java.util.ArrayList;
 
-public class Conjunto extends ArrayList<String> {
-	private static final long serialVersionUID = 1L;
-	public void addNumber(int number) { //Works pecfectly but need to make it on a GUI
-		if(checkIfExist(number)) {
-			System.out.println("El número "+number+" ya existe en el conjunto");
-		} else {
-			this.add(String.valueOf(number));
+public class Conjunto {
+	private ArrayList<Integer> elements = new ArrayList<>();
+	public void addElement(Integer element) { //Works perfectly, need GUI
+		if(!checkExist(element)) {
+			elements.add(element);
 		}
 	}
-	public void delNumber(int number) { //Works pecfectly but need to make it on a GUI
-		String aux="";
-		if(checkIfExist(number)) {
-			for(String i : this) {
-				if(i.equals(String.valueOf(number))) {
-					aux=i;
+	public void delElement(Integer element) { //Works perfectly, need GUI
+		if(checkExist(element)) {
+			elements.remove(element);
+		}
+	}
+	public void showUnion(Conjunto comparation) { //Works perfectly, need GUI
+		Conjunto aux = comparation;
+		for(Integer element : elements) {
+			aux.addElement(element);
+		}
+		aux.showElements();
+	}
+	public void showIntersect(Conjunto comparation) { //Need to get FIXED
+		Conjunto aux = new Conjunto();
+		for(Integer compElement : comparation.elements) {
+			if(this.checkExist(compElement)) {
+					aux.addElement(compElement);
+			}
+		}
+		aux.showElements();
+	}
+	public void showDifference(Conjunto comparation) { //Need to get FIXED
+		Conjunto aux = this;
+		for(int i = aux.elements.size()-1; i>-1; i--) {
+			for(Integer compElement : comparation.elements) {
+				if(elements.get(i).equals(compElement)) {
+					aux.delElement(elements.get(i));
+					i--;
 				}
 			}
-			this.remove(aux);			
-		} else {
-			System.out.println("El número "+number+" no existe en el conjunto");
 		}
+		aux.showElements();
 	}
-	public void showUnion(Conjunto c) { //It works but it doesnt have to say if exist or not
-		Conjunto aux = new Conjunto();
-		for (String i : this) {
-			aux.addNumber(Integer.valueOf(i));
-		}
-		for (String i : c) {
-			aux.addNumber(Integer.valueOf(i));
-		}
-		aux.showNumbers();
-	}
-	public void showIntersect(Conjunto c) { //It works but it doesnt have to say if exist or not
-		Conjunto aux = new Conjunto();
-		for (String i : this) {
-			if(c.checkIfExist(Integer.valueOf(i))) {
-				aux.addNumber(Integer.valueOf(i));
+	public boolean checkExist(Integer element) { //Works perfectly
+		for(Integer listElement : elements) {
+			if(listElement.equals(element)) {
+				return true;
 			}
 		}
-		aux.showNumbers();
+		return false;
+	}
+	public boolean checkSubElement() {
+		return false;
+	}
+	public boolean checkEquals() {
+		return false;
+	}
+	public void showElements() { //Works perfectly, need GUI
+		System.out.println(elements);
 	}	
-	public void showDiference() {
-		
-	}
-	public boolean checkIfExist(int number) {
-		boolean exist=false;
-		for (String i : this) {
-			if(i.equals(String.valueOf(number))) {
-				exist=true;
-			}
- 		}
-		return exist;
-	}
-	public void checkSubSet() {
-		
-	}
-	public void checkEquals() {
-		
-	}
-	public void showNumbers() { //Works pecfectly but need to make it on a GUI
-		System.out.println(this);
-	}
 }
