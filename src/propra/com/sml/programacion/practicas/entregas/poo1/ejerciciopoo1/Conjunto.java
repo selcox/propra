@@ -15,30 +15,38 @@ public class Conjunto {
 		}
 	}
 	public void showUnion(Conjunto comparation) { //Works perfectly, need GUI
-		Conjunto aux = comparation;
+		Conjunto aux = new Conjunto();
 		for(Integer element : elements) {
+			aux.addElement(element);
+		}
+		for(Integer element : comparation.elements) {
 			aux.addElement(element);
 		}
 		aux.showElements();
 	}
 	public void showIntersect(Conjunto comparation) { //Need to get FIXED
 		Conjunto aux = new Conjunto();
+
 		for(Integer compElement : comparation.elements) {
 			if(this.checkExist(compElement)) {
-					aux.addElement(compElement);
+				aux.addElement(compElement);
 			}
 		}
 		aux.showElements();
 	}
 	public void showDifference(Conjunto comparation) { //Need to get FIXED
-		Conjunto aux = this;
-		for(int i = aux.elements.size()-1; i>-1; i--) {
-			for(Integer compElement : comparation.elements) {
-				if(elements.get(i).equals(compElement)) {
-					aux.delElement(elements.get(i));
-					i--;
-				}
+		Conjunto aux = new Conjunto();
+		Conjunto aux2 = new Conjunto();
+		for(Integer element : elements) {
+			aux.addElement(element);
+		}
+		for(Integer compElement : comparation.elements) {
+			if(this.checkExist(compElement)) {
+				aux2.addElement(compElement);
 			}
+		}
+		for(Integer delElement : aux2.elements) {
+			aux.delElement(delElement);
 		}
 		aux.showElements();
 	}
@@ -50,13 +58,31 @@ public class Conjunto {
 		}
 		return false;
 	}
-	public boolean checkSubElement() {
-		return false;
+	public boolean checkSubElement(Conjunto comparation) {
+		for(Integer element : elements) {
+			if(!comparation.checkExist(element)) {
+				return false;
+			}
+		}
+		return true;
 	}
-	public boolean checkEquals() {
-		return false;
-	}
-	public void showElements() { //Works perfectly, need GUI
-		System.out.println(elements);
+	public boolean checkEquals(Conjunto comparation) {
+		if(elements.size()!=comparation.elements.size()) {
+			return false;
+		}
+		for(Integer element : elements) {
+			if(!comparation.checkExist(element)) {
+				return false;
+			}
+		}
+		return true;
 	}	
+	public void showElements() { //Works perfectly, need GUI
+		System.out.print(elements+"\n");
+	}	
+	public void showFormatElements() {
+		for(Integer element : elements) {
+			System.out.print(" el"+element);
+		}
+	}
 }
