@@ -15,18 +15,32 @@ public class Conjunto {
 		}
 	}
 	public void showUnion(Conjunto comparation) { //Works perfectly, need GUI
-		Conjunto aux = new Conjunto();
-		aux = comparation;
+		Conjunto aux = comparation;
 		for(Integer element : elements) {
 			aux.addElement(element);
 		}
 		aux.showElements();
 	}
-	public void showIntersect(Conjunto comparation) {
-		
+	public void showIntersect(Conjunto comparation) { //Need to get FIXED
+		Conjunto aux = new Conjunto();
+		for(Integer compElement : comparation.elements) {
+			if(this.checkExist(compElement)) {
+					aux.addElement(compElement);
+			}
+		}
+		aux.showElements();
 	}
-	public void showDifference() {
-		
+	public void showDifference(Conjunto comparation) { //Need to get FIXED
+		Conjunto aux = this;
+		for(int i = aux.elements.size()-1; i>-1; i--) {
+			for(Integer compElement : comparation.elements) {
+				if(elements.get(i).equals(compElement)) {
+					aux.delElement(elements.get(i));
+					i--;
+				}
+			}
+		}
+		aux.showElements();
 	}
 	public boolean checkExist(Integer element) { //Works perfectly
 		for(Integer listElement : elements) {
