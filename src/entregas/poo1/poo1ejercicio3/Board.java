@@ -1,4 +1,4 @@
-package propra.com.sml.programacion.practicas.entregas.poo1.ejerciciopoo3;
+package entregas.poo1.poo1ejercicio3;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -10,6 +10,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -23,7 +24,6 @@ public class Board {
 	private static final int BOARD_SPACE_SIZE = SIZE/3;
 	private JFrame tableFrame = new JFrame();
 	private JPanel boardPanel = new JPanel();
-	private String winner;
 	BoardSpace tL = new BoardSpace();
 	BoardSpace tC = new BoardSpace();
 	BoardSpace tR = new BoardSpace();
@@ -64,37 +64,31 @@ public class Board {
 	}
 	public void initIcons() {
 		ImageIcon icon;
-		icon = new ImageIcon("./resources/imagesEjercicio3Poo1/x.png");
+		icon = new ImageIcon("src/entregas/poo1/poo1Ejercicio3/x.png");
 		xImage = new ImageIcon(icon.getImage().getScaledInstance(BOARD_SPACE_SIZE, BOARD_SPACE_SIZE, Image.SCALE_DEFAULT));
-		icon = new ImageIcon("./resources/imagesEjercicio3Poo1/o.png");
+		icon = new ImageIcon("src/entregas/poo1/poo1Ejercicio3/o.png");
 		oImage = new ImageIcon(icon.getImage().getScaledInstance(BOARD_SPACE_SIZE, BOARD_SPACE_SIZE, Image.SCALE_DEFAULT));
 	}
 	public boolean checkXWin() {
-		if((tL.xUsed && tC.xUsed && tR.xUsed) || (cL.xUsed && cC.xUsed && cR.xUsed) || (bL.xUsed && bC.xUsed && bR.xUsed)) {
-			winner="X"; //Check rows
+		if((tL.xUsed && tC.xUsed && tR.xUsed) || (cL.xUsed && cC.xUsed && cR.xUsed) || (bL.xUsed && bC.xUsed && bR.xUsed)) { //Check rows
 			return true;
 		}
-		if((tL.xUsed && cL.xUsed && bL.xUsed) || (tC.xUsed && cC.xUsed && bC.xUsed) || (tR.xUsed && cR.xUsed && bR.xUsed)) {
-			winner="X"; //Check columns
+		if((tL.xUsed && cL.xUsed && bL.xUsed) || (tC.xUsed && cC.xUsed && bC.xUsed) || (tR.xUsed && cR.xUsed && bR.xUsed)) { //Check columns
 			return true;
 		}
-		if((tL.xUsed && cC.xUsed && bR.xUsed) || (tR.xUsed && cC.xUsed && bL.xUsed)) {
-			winner="X"; //Check diagonals
+		if((tL.xUsed && cC.xUsed && bR.xUsed) || (tR.xUsed && cC.xUsed && bL.xUsed)) { //Check diagonals
 			return true;
 		}
 		return false;
 	}
 	public boolean checkOWin() {
-		if((tL.oUsed && tC.oUsed && tR.oUsed) || (cL.oUsed && cC.oUsed && cR.oUsed) || (bL.oUsed && bC.oUsed && bR.oUsed)) {
-			winner="O"; //Check rows
+		if((tL.oUsed && tC.oUsed && tR.oUsed) || (cL.oUsed && cC.oUsed && cR.oUsed) || (bL.oUsed && bC.oUsed && bR.oUsed)) { //Check rows
 			return true;
 		}
-		if((tL.oUsed && cL.oUsed && bL.oUsed) || (tC.oUsed && cC.oUsed && bC.oUsed) || (tR.oUsed && cR.oUsed && bR.oUsed)) {
-			winner="O"; //Check columns
+		if((tL.oUsed && cL.oUsed && bL.oUsed) || (tC.oUsed && cC.oUsed && bC.oUsed) || (tR.oUsed && cR.oUsed && bR.oUsed)) { //Check columns
 			return true;
 		}
-		if((tL.oUsed && cC.oUsed && bR.oUsed) || (tR.oUsed && cC.oUsed && bL.oUsed)) {
-			winner="O"; //Check diagonals
+		if((tL.oUsed && cC.oUsed && bR.oUsed) || (tR.oUsed && cC.oUsed && bL.oUsed)) { //Check diagonals
 			return true;
 		}
 		return false;
@@ -111,24 +105,44 @@ public class Board {
 			xUsed = false;
 			oUsed = false;
 		}
-		public void changeIcon(Icon activatedIcon) {
-			if(!activated && count<6) {
-				setIcon(activatedIcon);
-				activated = true;
+		public void xTurn() {
+			setIcon(xImage);
+			firstPlayerTurn = false;
+			xUsed = true;
+			activated = true;
+			if(checkXWin()) {
+				count+=9;
+				JOptionPane.showMessageDialog(null, "　Ganan las X!!");
+				System.exit(0);
 			}
+			if(count==5) {
+				JOptionPane.showMessageDialog(null, "　Empate!!");
+				System.exit(0);
+			}
+			count++;
+		}
+		public void oTurn() {
+			setIcon(oImage);
+			firstPlayerTurn = true;
+			oUsed = true;
+			activated = true;
+			if(checkOWin()) {
+				count+=9;
+				JOptionPane.showMessageDialog(null, "　Ganan las O!!");
+				System.exit(0);
+			}
+			if(count==5) {
+				JOptionPane.showMessageDialog(null, "　Empate!!");
+				System.exit(0);
+			}
+			count++;
 		}
 		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			if(firstPlayerTurn) {
-				changeIcon(xImage);
-				firstPlayerTurn = false;
-				xUsed = true;
-				count++;
-			} else {
-				changeIcon(oImage);
-				firstPlayerTurn = true;
-				oUsed = true;
-				count++;
+		public void mouseClicked(MouseEvent e) {
+			if(firstPlayerTurn && !activated && count<6) {
+				xTurn();
+			} else if(!firstPlayerTurn && !activated && count<6){
+				oTurn();
 			}
 		}
 		@Override

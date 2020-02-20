@@ -1,4 +1,4 @@
-package propra.com.sml.programacion.practicas.entregas.poo1.ejerciciopoo2;
+package entregas.poo1.poo1Ejercicio2;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package propra.com.sml.programacion.practicas.entregas.febrero7.ejercicio3;
+package entregas.febrero7.feb7Ejercicio3;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

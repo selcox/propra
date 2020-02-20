@@ -1,4 +1,4 @@
-package propra.com.sml.programacion.practicas.entregas.poo1.ejerciciopoo1;
+package entregas.poo1.poo1Ejercicio1;
 
 public class EjercicioPoo1 {
 	static Conjunto a = new Conjunto();

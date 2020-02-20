@@ -1,4 +1,4 @@
-package propra.com.sml.programacion.practicas.entregas.febrero7.ejercicio2;
+package entregas.febrero7.feb7Ejercicio2;
 
 import java.util.Random;
 
