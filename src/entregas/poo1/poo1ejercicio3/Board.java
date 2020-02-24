@@ -224,6 +224,7 @@ public class Board extends JPanel {
 					} else if(checkOWin()) {
 						return -1;
 					} else {
+						iaTurnDone = true;
 						score =  minimax(false);
 						bestScore = Math.max(bestScore, score);
 						positions[i][j].setText("");
@@ -236,7 +237,7 @@ public class Board extends JPanel {
 			int score = 0;
 			for(int i=0; i<3; i++) {
 				for(int j=0; j<3; j++) {
-					activatePosition(i,j,!checkingMax);
+					activatePosition(i,j,checkingMax);
 					if(checkOWin()) {
 						bestI = i;
 						bestJ = j;
@@ -244,6 +245,7 @@ public class Board extends JPanel {
 					} else if(checkXWin()) {
 						return -1;
 					} else {
+						iaTurnDone = true;
 						score =  minimax(true);
 						bestScore = Math.min(bestScore, score);
 					}
@@ -256,7 +258,6 @@ public class Board extends JPanel {
 	public static void iaTurn() {
 		minimax(false);
 		activatePosition(bestI,bestJ,false);
-		iaTurnDone = true;
 	}
 }
 
