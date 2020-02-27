@@ -188,10 +188,8 @@ public class Board extends JPanel {
 		aux[bestI][bestJ]=firstPlayer;
 		positions[bestI][bestJ].setText(firstPlayer);
 		moves++;
-		System.out.println(moves);
 		checkEnd();
 	}
-
 	class Mouse extends MouseAdapter {
 		@Override
 		public void mousePressed(MouseEvent e) {
